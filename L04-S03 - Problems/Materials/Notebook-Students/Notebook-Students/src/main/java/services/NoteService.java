@@ -11,10 +11,12 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import repositories.NoteRepository;
 import domain.Customer;
@@ -28,30 +30,62 @@ public class NoteService {
 	@Autowired
 	private NoteRepository	noteRepository;
 
+	//Supporting services---------
+	@Autowired
+	private CustomerService	customerService;
+
 
 	public Note create(final Customer customer) {
 		final Note result;
+		result = new Note();
+		//Habría que añadir a customer la note y guardar ese customer en la bd?
+		result.setCustomer(customer);
 
-		return null;
+		return result;
 	}
 
 	public Note save(final Note note) {
-		// TODO Auto-generated method stub
-		return null;
+		Note result;
+		Assert.notNull(note);
+		note.setMoment(new Date(System.currentTimeMillis() - 1000));
+		result = this.noteRepository.save(note);
+		Assert.notNull(result.getId());
+
+		return result;
 	}
 
 	public void delete(final Note note) {
-		// TODO Auto-generated method stub
+		Assert.isTrue(note.equals(this.noteRepository.findOne(note.getId())));
+		this.noteRepository.delete(note);
 	}
 
 	public Collection<Note> findByPrincipal() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		Collection<Note> result;
+		Customer customerPrincipal;
 
+		customerPrincipal = this.customerService.findByPrincipal();
+		Assert.notNull(customerPrincipal);
+		result = this.noteRepository.findByCustomerId(customerPrincipal.getId());
+		return result;
+	}
 	public Note findOneToEdit(final int noteId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		final Note result;
+		Customer customerPrincipal;
 
+		customerPrincipal = this.customerService.findByPrincipal();
+		Assert.notNull(customerPrincipal);
+		result = this.noteRepository.findOne(noteId);
+		Assert.isTrue(customerPrincipal.getNotes().contains(result));
+		return result;
+	}
+	public void checkPrincipal(final int noteId) {
+		Customer customerPrincipal;
+		final Note note;
+
+		customerPrincipal = this.customerService.findByPrincipal();
+		Assert.notNull(customerPrincipal);
+		note = this.noteRepository.findOne(noteId);
+		Assert.isTrue(customerPrincipal.getNotes().contains(note));
+
+	}
 }

@@ -1,25 +1,31 @@
-/* NoteServiceTest.java
- *
+/*
+ * NoteServiceTest.java
+ * 
  * Copyright (C) 2017 Universidad de Sevilla
  * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
+ * The use of this project is hereby constrained to the conditions of the
+ * TDG Licence, a copy of which you may download from
  * http://www.tdg-seville.info/License.html
- * 
  */
 
 package services;
 
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+
 import utilities.AbstractTest;
 
-// TODO: this file provides an incomplete template; complete it with the appropriate annotations 
-// TODO: and method implementations.  Do not forget to add appropriate sectioning comments, e.g., 
-// TODO: "System under test" and "Tests".
-
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {
+	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"
+})
+@Transactional
 public class NoteServiceTest extends AbstractTest {
 
 	public void testCreate() {
-		// TODO Auto-generated method stub
+		super.authenticate("customer1");
 	}
 
 	public void testSave() {
