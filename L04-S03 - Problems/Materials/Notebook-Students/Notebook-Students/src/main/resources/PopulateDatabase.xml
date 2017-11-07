@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+ * PopulateDatabase.xml
+ *
+ * Copyright (C) 2017 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	">
+	
+	<!-- User accounts -->
+
+	<bean id="userAccount1" class="security.UserAccount">
+		<property name="username" value="admin" />
+		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="ADMIN" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccount2" class="security.UserAccount">
+		<property name="username" value="customer1" />
+		<property name="password" value="ffbc4675f864e0e9aab8bdf7a0437010" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CUSTOMER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount3" class="security.UserAccount">
+		<property name="username" value="customer2" />
+		<property name="password" value="5ce4d191fd14ac85a1469fb8c29b7a7b" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CUSTOMER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Actors -->
+	
+	<bean id="admin" class="domain.Administrator">
+		<property name="name" value="Administrator" />
+		<property name="email" value="admin1@mail.com" />
+		<property name="phone" value="admin-phone" />
+		<property name="address" value="Admin address" />
+		<property name="userAccount" ref="userAccount1" />
+	</bean>
+		
+	<bean id="customer1" class="domain.Customer">
+		<property name="name" value="Customer-1" />
+		<property name="email" value="customer-1@mail.com" />
+		<property name="phone" value="customer-1-phone" />
+		<property name="address" value="Customer-1 address" />
+		<property name="userAccount" ref="userAccount2" />
+		<property name="notes">
+			<list>
+				<ref bean="note1" />
+				<ref bean="note2" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="customer2" class="domain.Customer">
+		<property name="name" value="Customer-2" />
+		<property name="email" value="customer-2@mail.com" />
+		<property name="phone" value="customer-2-phone" />
+		<property name="address" value="Customer-2 address" />
+		<property name="userAccount" ref="userAccount3" />
+		<property name="notes">
+			<list>
+				<ref bean="note3" />
+				<ref bean="note4" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Notes -->
+	
+	<bean id="note1" class="domain.Note">
+		<property name="title" value="Note 1" />
+		<property name="moment" value="12/12/2012 12:12" />
+		<property name="text" value="Blah, blah, blah" />
+		<property name="customer" ref="customer1" />
+	</bean>
+	
+	<bean id="note2" class="domain.Note">
+		<property name="title" value="Note 2" />
+		<property name="moment" value="12/12/2012 12:12" />
+		<property name="text" value="Blah, blah, blah" />
+		<property name="customer" ref="customer1" />
+	</bean>
+	
+	<bean id="note3" class="domain.Note">
+		<property name="title" value="Note 3" />
+		<property name="moment" value="12/12/2012 12:12" />
+		<property name="text" value="Blah, blah, blah" />
+		<property name="customer" ref="customer2" />
+	</bean>		
+	
+	<bean id="note4" class="domain.Note">
+		<property name="title" value="Note 4" />
+		<property name="moment" value="12/12/2012 12:12" />
+		<property name="text" value="Blah, blah, blah" />
+		<property name="customer" ref="customer2" />
+	</bean>				
+	
+</beans>
